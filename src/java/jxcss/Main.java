@@ -1,6 +1,6 @@
 package jxcss;
 
-import java.io.File;
+import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.InputStream;
 import java.io.InputStreamReader;
@@ -120,10 +120,11 @@ public class Main {
                 try {
                     String url = args[idx++];
                     if (!"-".equals(url)) {
-                        if (url.indexOf("://") == -1) {
-                            url = "file:///" + new File(url).getAbsolutePath();
+                        if (url.indexOf("://") != -1) {
+                            in = new URL(url).openStream();
+                        } else {
+                            in = new FileInputStream(url);
                         }
-                        in = new URL(url).openStream();
                     }
                 } catch (Exception e) {
                     error("Error opening input URL", e);
@@ -150,6 +151,7 @@ public class Main {
             Pipeline pipeline = pipelineFactory.newPipeline();
             pipeline.execute(new InputStreamReader(in), new OutputStreamWriter(out), null);
         } catch (Exception e) {
+            e.printStackTrace();
             error("Error during pipeline processing", e);
         }
     }
