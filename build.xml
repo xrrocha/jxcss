@@ -11,7 +11,7 @@
         </jar>
     </target>
 	
-	<target name="javadoc" depends="compile">
+	<target name="javadoc" depends="compile" if="javadoc">
 		<javadoc access="public"
 			     destdir="${www.javadoc.dir}"
 				 classpathref="base-classpath"
@@ -41,6 +41,7 @@
             <include name="${batik-css.jar}"/>
             <include name="${batik-util.jar}"/>
             <include name="${flute.jar}"/>
+            <include name="${plenix-sax.jar}"/>
             <include name="${sac.jar}"/>
             <include name="${ss_css2.jar}"/>
             <include name="${xalan.jar}"/>
