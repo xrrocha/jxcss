@@ -13,7 +13,7 @@ import javax.xml.transform.stream.StreamSource;
 import plenix.components.xml.sax.pipeline.SAXPipeline;
 import plenix.components.xml.sax.pipeline.SAXPipelineFactory;
 import plenix.components.xml.sax.pipeline.generator.CSSParserSAXGeneratorFactory;
-import plenix.components.xml.sax.pipeline.serializer.ApacheXMLSerializerFactory;
+import plenix.components.xml.sax.pipeline.serializer.ApacheXMLSAXSerializerFactory;
 import plenix.components.xml.sax.pipeline.transformer.TraxSAXTransformerFactory;
 
 /**
@@ -147,7 +147,7 @@ public class Main {
                 InputStream sis = Main.class.getResourceAsStream("compact-xcss.xsl");
                 pipelineFactory.addTransformerFactory(new TraxSAXTransformerFactory(new StreamSource(sis)));
             }
-            pipelineFactory.setSerializerFactory(new ApacheXMLSerializerFactory());
+            pipelineFactory.setSerializerFactory(new ApacheXMLSAXSerializerFactory());
             SAXPipeline pipeline = pipelineFactory.newPipeline();
             pipeline.process(new InputStreamReader(in), new OutputStreamWriter(out));
         } catch (Exception e) {
