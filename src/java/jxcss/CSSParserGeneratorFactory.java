@@ -14,20 +14,20 @@ import plenix.components.xml.sax.pipeline.generator.SAXGenerator;
 /**
  * CSSParserSAXGeneratorFactory.
  */
-public class CSSParserSAXGeneratorFactory implements GeneratorFactory {
+public class CSSParserGeneratorFactory implements GeneratorFactory {
     private String namespacePrefix = "";
     private CSSParserFactory parserFactory;
     
-    public CSSParserSAXGeneratorFactory(){}
-    public CSSParserSAXGeneratorFactory(CSSParserFactory parserFactory) {
+    public CSSParserGeneratorFactory(){}
+    public CSSParserGeneratorFactory(CSSParserFactory parserFactory) {
         setParserFactory(parserFactory);
     }
-    public CSSParserSAXGeneratorFactory(String namespacePrefix, CSSParserFactory parserFactory) {
+    public CSSParserGeneratorFactory(String namespacePrefix, CSSParserFactory parserFactory) {
         setNamespacePrefix(namespacePrefix);
         setParserFactory(parserFactory);
     }
     
-    public Generator newGenerator() throws SAXException {
+    public Generator newGenerator() {
         return new SAXGenerator() {
             public void generateFrom(Object reader) throws Exception {
                 try {

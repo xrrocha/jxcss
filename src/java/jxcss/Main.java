@@ -140,7 +140,7 @@ public class Main {
             }
 
             DefaultPipelineFactory pipelineFactory = new DefaultPipelineFactory();
-            pipelineFactory.setGeneratorFactory(new CSSParserSAXGeneratorFactory(
+            pipelineFactory.setGeneratorFactory(new CSSParserGeneratorFactory(
                     SAXCSSDocumentHandler.DEFAULT_NAMESPACE_PREFIX, parserFactory));
             if (compact) {
                 InputStream sis = Main.class.getResourceAsStream("compact-xcss.xsl");
