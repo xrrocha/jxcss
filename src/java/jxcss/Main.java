@@ -10,10 +10,10 @@ import java.net.URL;
 
 import javax.xml.transform.stream.StreamSource;
 
-import plenix.components.xml.sax.pipeline.DefaultSAXPipelineFactory;
-import plenix.components.xml.sax.pipeline.SAXPipeline;
+import plenix.components.pipeline.DefaultPipelineFactory;
+import plenix.components.pipeline.Pipeline;
 import plenix.components.xml.sax.pipeline.serializer.ApacheXMLSAXSerializerFactory;
-import plenix.components.xml.sax.pipeline.transformer.TraxSAXTransformerFactory;
+import plenix.components.xml.sax.pipeline.transformer.TraxTransformerFactory;
 
 /**
  * This class provides the command-line interface for JXCSS.
@@ -139,16 +139,16 @@ public class Main {
                 }
             }
 
-            DefaultSAXPipelineFactory pipelineFactory = new DefaultSAXPipelineFactory();
+            DefaultPipelineFactory pipelineFactory = new DefaultPipelineFactory();
             pipelineFactory.setGeneratorFactory(new CSSParserSAXGeneratorFactory(
                     SAXCSSDocumentHandler.DEFAULT_NAMESPACE_PREFIX, parserFactory));
             if (compact) {
                 InputStream sis = Main.class.getResourceAsStream("compact-xcss.xsl");
-                pipelineFactory.addTransformerFactory(new TraxSAXTransformerFactory(new StreamSource(sis)));
+                pipelineFactory.addTransformerFactory(new TraxTransformerFactory(new StreamSource(sis)));
             }
             pipelineFactory.setSerializerFactory(new ApacheXMLSAXSerializerFactory());
-            SAXPipeline pipeline = pipelineFactory.newPipeline();
-            pipeline.process(new InputStreamReader(in), new OutputStreamWriter(out), null);
+            Pipeline pipeline = pipelineFactory.newPipeline();
+            pipeline.execute(new InputStreamReader(in), new OutputStreamWriter(out), null);
         } catch (Exception e) {
             error("Error during pipeline processing", e);
         }

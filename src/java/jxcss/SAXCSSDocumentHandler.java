@@ -25,7 +25,7 @@ import org.xml.sax.ContentHandler;
 import org.xml.sax.SAXException;
 import org.xml.sax.helpers.AttributesImpl;
 
-import plenix.components.xml.sax.AbstractSAXProducer;
+import plenix.components.xml.sax.SAXContentGenerator;
 
 /**
  * This class implements the <code>org.w3c.css.sac.DocumentHandler</code> by generating
@@ -54,7 +54,7 @@ import plenix.components.xml.sax.AbstractSAXProducer;
  * as defined by the W3C's
  * <a href="http://www.w3.org/TR/2000/REC-DOM-Level-2-Core-20001113/" target="_top">Level-2 DOM</a>. 
  */
-public class SAXCSSDocumentHandler extends AbstractSAXProducer implements DocumentHandler {
+public class SAXCSSDocumentHandler extends SAXContentGenerator implements DocumentHandler {
     /** The XCSS namespace URI (xcss/1.0) */
     public static final String XCSS_NAMESPACE_URI = "xcss/1.0";
     /** The default XCSS namespace prefix (xcss) */

@@ -2,21 +2,19 @@ package jxcss;
 
 import java.io.Reader;
 
-
 import org.w3c.css.sac.InputSource;
 import org.w3c.css.sac.Parser;
 import org.xml.sax.SAXException;
 
-import plenix.components.xml.sax.pipeline.generator.AbstractSAXGenerator;
+import plenix.components.pipeline.Generator;
+import plenix.components.pipeline.GeneratorFactory;
 import plenix.components.xml.sax.pipeline.generator.SAXGenerator;
-import plenix.components.xml.sax.pipeline.generator.SAXGeneratorFactory;
-
 
 
 /**
  * CSSParserSAXGeneratorFactory.
  */
-public class CSSParserSAXGeneratorFactory implements SAXGeneratorFactory {
+public class CSSParserSAXGeneratorFactory implements GeneratorFactory {
     private String namespacePrefix = "";
     private CSSParserFactory parserFactory;
     
@@ -29,15 +27,15 @@ public class CSSParserSAXGeneratorFactory implements SAXGeneratorFactory {
         setParserFactory(parserFactory);
     }
     
-    public SAXGenerator newInstance() throws SAXException {
-        return new AbstractSAXGenerator() {
-            public void generateFrom(Object source) throws SAXException {
+    public Generator newGenerator() throws SAXException {
+        return new SAXGenerator() {
+            public void generateFrom(Object reader) throws Exception {
                 try {
                     Parser parser = getParserFactory().newParser();
                     SAXCSSDocumentHandler documentHandler = new SAXCSSDocumentHandler(getContentHandler());
                     documentHandler.setNamespacePrefix(getNamespacePrefix());
                     parser.setDocumentHandler(documentHandler);
-                    parser.parseStyleSheet(new InputSource((Reader) source));
+                    parser.parseStyleSheet(new InputSource((Reader) reader));
                 } catch (Exception e) {
                     throw new SAXException(e);
                 }
