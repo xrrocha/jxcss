@@ -8,8 +8,8 @@
 
     <xsl:output method="xml"
                 indent="yes"
-                doctype-public="xcss"
-                doctype-system="xcss/1.0"/>
+                doctype-public="compact-xcss"
+                doctype-system="compact-xcss/1.0"/>
 
     <xsl:template match="xcss:css-stylesheet">
         <compact-css-stylesheet>
