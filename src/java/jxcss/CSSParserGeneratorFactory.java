@@ -1,14 +1,7 @@
 package jxcss;
 
-import java.io.Reader;
-
-import org.w3c.css.sac.InputSource;
-import org.w3c.css.sac.Parser;
-import org.xml.sax.SAXException;
-
 import plenix.components.processor.pipeline.Generator;
 import plenix.components.processor.pipeline.GeneratorFactory;
-import plenix.components.processor.pipeline.sax.generator.SAXGenerator;
 
 
 /**
@@ -28,19 +21,7 @@ public class CSSParserGeneratorFactory implements GeneratorFactory {
     }
     
     public Generator newGenerator() {
-        return new SAXGenerator() {
-            public void generateFrom(Object reader) throws Exception {
-                try {
-                    Parser parser = getParserFactory().newParser();
-                    SAXCSSDocumentHandler documentHandler = new SAXCSSDocumentHandler(getContentHandler());
-                    documentHandler.setNamespacePrefix(getNamespacePrefix());
-                    parser.setDocumentHandler(documentHandler);
-                    parser.parseStyleSheet(new InputSource((Reader) reader));
-                } catch (Exception e) {
-                    throw new SAXException(e);
-                }
-            }
-        };
+        return new CSSParserGenerator(getParserFactory(), getNamespacePrefix());
     }
 
     /**

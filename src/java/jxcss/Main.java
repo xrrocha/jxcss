@@ -7,13 +7,16 @@ import java.io.InputStreamReader;
 import java.io.OutputStream;
 import java.io.OutputStreamWriter;
 import java.net.URL;
+import java.util.ArrayList;
+import java.util.List;
 
 import javax.xml.transform.stream.StreamSource;
 
-import plenix.components.processor.Processor;
-import plenix.components.processor.pipeline.PipelineProcessorFactory;
-import plenix.components.processor.pipeline.sax.serializer.ApacheXMLSAXSerializerFactory;
-import plenix.components.processor.pipeline.sax.transformer.TraxTransformerFactory;
+import plenix.components.processor.pipeline.Generator;
+import plenix.components.processor.pipeline.PipelineProcessor;
+import plenix.components.processor.pipeline.Serializer;
+import plenix.components.processor.pipeline.sax.serializer.ApacheXMLSerializer;
+import plenix.components.processor.pipeline.sax.transformer.TraxTransformer;
 
 /**
  * This class provides the command-line interface for JXCSS.
@@ -140,15 +143,15 @@ public class Main {
                 }
             }
 
-            PipelineProcessorFactory pipelineFactory = new PipelineProcessorFactory();
-            pipelineFactory.setGeneratorFactory(new CSSParserGeneratorFactory(
-                    SAXCSSDocumentHandler.DEFAULT_NAMESPACE_PREFIX, parserFactory));
+            Generator generator = new CSSParserGenerator(parserFactory, SAXCSSDocumentHandler.DEFAULT_NAMESPACE_PREFIX);
+            List transformers = new ArrayList();
             if (compact) {
                 InputStream sis = Main.class.getResourceAsStream("compact-xcss.xsl");
-                pipelineFactory.addTransformerFactory(new TraxTransformerFactory(new StreamSource(sis)));
+                transformers.add(new TraxTransformer(new StreamSource(sis)));
             }
-            pipelineFactory.setSerializerFactory(new ApacheXMLSAXSerializerFactory());
-            Processor pipeline = pipelineFactory.newProcessor();
+            Serializer serializer = new ApacheXMLSerializer();
+            PipelineProcessor pipeline = new PipelineProcessor(generator, transformers, serializer);
+            
             pipeline.process(new InputStreamReader(in), new OutputStreamWriter(out), null);
         } catch (Exception e) {
             e.printStackTrace();

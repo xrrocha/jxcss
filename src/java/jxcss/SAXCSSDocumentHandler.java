@@ -162,9 +162,9 @@ public class SAXCSSDocumentHandler extends SAXContentProducer implements Documen
      * @throws NullPointerException when the passed content handler is null
      * @throws NullPointerException when the passed namespace is null
      */
-    public SAXCSSDocumentHandler(String namespacePrefix, ContentHandler contentHandler) {
-        setNamespacePrefix(namespacePrefix);
+    public SAXCSSDocumentHandler(ContentHandler contentHandler, String namespacePrefix) {
         setContentHandler(contentHandler);
+        setNamespacePrefix(namespacePrefix);
     }
 
     /**
