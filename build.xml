@@ -12,7 +12,9 @@
     </target>
 	
 	<target name="javadoc" depends="compile">
-		<javadoc destdir="${www.javadoc.dir}"
+		<javadoc access="public"
+			     destdir="${www.javadoc.dir}"
+				 classpathref="base-classpath"
 		         windowtitle="JXCSS API Documentation">
 			<fileset dir="${src.java.dir}"/>
 		</javadoc>
