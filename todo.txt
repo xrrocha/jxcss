@@ -1,4 +1,5 @@
 - Complete DTD's
+- Add a @nane attribute to [compact-]css-stylesheet
 - Write a CSS-generating stylesheet
 - Fix Batik's getFunctionName() problem: throws IllegalStateException
 - Fix Flute's getFunctionName() problem: returns parent property's name
