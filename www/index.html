@@ -63,7 +63,7 @@
                 (albeit less concise) structure of the stylesheet.
             </li>
             <li>
-                The optional <code>-p</code> specifies what SAC parser to use.
+                The optional <code>-p</code> option specifies what SAC parser to use.
                 Recognized values are:
                 <ul>
                     <li>
@@ -127,10 +127,39 @@
         </p>
         
         <p>
-            For command-line operation the Plenix SAX library (<code>lib/plenix-sax.jar</code>)
-            must be in the classpath. For programmatic Java access, only the <code>jxcss.jar</code>
-            and <code>sac.jar</code> libraries are required.
+            The following libraries must be in the class path:
         </p>
+        <ul>
+            <li>
+                <code>jxcss.jar</code>
+            </li>
+            <li>
+                <code>sac.jar</code>
+            </li>
+            <li>
+                A SAC CSS2 parser:
+                <ul>
+                    <li>
+                        Steady State:
+                        <code>ss_css2.jar</code>
+                    </li>
+                    <li>
+                        Flute:
+                        <code>flute.jar</code>
+                    </li>
+                    <li>
+                        Batik:
+                        <code>batik-css.jar</code> and
+                        <code>batik-util.jar</code>
+                    </li>
+                </ul>
+            </li>
+            <li>
+                For command-line operation only, the
+                <code>plenix-sax.jar</code> library which contains support
+                for SAX pipelines.
+            </li>
+        </ul>
 
         <br/>
         <h2 class="sectionTitle">Status</h2>
