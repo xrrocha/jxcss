@@ -699,7 +699,7 @@ public class SAXCSSDocumentHandler extends AbstractSAXProducer implements Docume
     }
 
     protected void lexicalValue(LexicalUnit lexicalUnit) throws SAXException {
-        if (lexicalUnit != null) {
+        while (lexicalUnit != null) {
             int lexicalUnitType = lexicalUnit.getLexicalUnitType();
             switch (lexicalUnitType) {
                 case LexicalUnit.SAC_INTEGER:
@@ -725,8 +725,9 @@ public class SAXCSSDocumentHandler extends AbstractSAXProducer implements Docume
                 case LexicalUnit.SAC_HERTZ:
                 case LexicalUnit.SAC_KILOHERTZ:
                     addAttribute(TYPE, "float");
+                    addAttribute(UNIT, lexicalUnit.getDimensionUnitText());
+                    // TODO: Supress trailing zeroes in float value
                     textElement(VALUE, Float.toString(lexicalUnit.getFloatValue()));
-                    textElement(UNIT, lexicalUnit.getDimensionUnitText());
                     break;
                 case LexicalUnit.SAC_URI:
                 case LexicalUnit.SAC_IDENT:
@@ -743,20 +744,21 @@ public class SAXCSSDocumentHandler extends AbstractSAXProducer implements Docume
                 case LexicalUnit.SAC_RGBCOLOR:
                     addAttribute(NAME, lexicalUnit.getFunctionName());
                     startElement(FUNCTION);
-                    LexicalUnit parameters = lexicalUnit.getParameters();
-                    while (parameters != null) {
-                        lexicalValue(parameters);
-                        parameters = parameters.getNextLexicalUnit();
-                    }
+                    lexicalValue(lexicalUnit.getParameters());
                     endElement(FUNCTION);
+                    break;
+                case LexicalUnit.SAC_INHERIT:
+                    textElement(VALUE, "inherit");
                     break;
                 case LexicalUnit.SAC_OPERATOR_COMMA:
                     // Simple separator
                     break;
                 case LexicalUnit.SAC_SUB_EXPRESSION:
                 default:
-                    textElement("unknown", Integer.toString(lexicalUnit.getLexicalUnitType()) + ": " + lexicalUnit.toString());
+                    // TODO: Log this!
+                    textElement("unknown", "unknown #" + Integer.toString(lexicalUnit.getLexicalUnitType()) + " {" + lexicalUnit.toString() + "}");
             }
+            lexicalUnit = lexicalUnit.getNextLexicalUnit();
         }
     }
     /**

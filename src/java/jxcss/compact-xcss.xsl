@@ -60,6 +60,9 @@
     </xsl:template>
 
     <xsl:template match="xcss:function">
+		<xsl:if test="position() &gt; 1">
+			<xsl:text> </xsl:text>
+		</xsl:if>
         <xsl:value-of select="@name"/>
         <xsl:text>(</xsl:text>
         <xsl:for-each select="*">
@@ -72,15 +75,10 @@
     </xsl:template>
 
     <xsl:template match="xcss:value">
-        <xsl:value-of select="."/>
-    </xsl:template>
-
-    <xsl:template match="xcss:unit">
-        <xsl:value-of select="."/>
-    </xsl:template>
-
-    <xsl:template match="xcss:unit">
-        <xsl:value-of select="."/>
+		<xsl:if test="position() &gt; 1">
+			<xsl:text> </xsl:text>
+		</xsl:if>
+        <xsl:value-of select="concat(., @unit)"/>
     </xsl:template>
 
     <xsl:template match="xcss:comment">
