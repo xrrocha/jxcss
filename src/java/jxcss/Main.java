@@ -148,7 +148,7 @@ public class Main {
             }
             pipelineFactory.setSerializerFactory(new ApacheXMLSAXSerializerFactory());
             SAXPipeline pipeline = pipelineFactory.newPipeline();
-            pipeline.process(new InputStreamReader(in), new OutputStreamWriter(out));
+            pipeline.process(new InputStreamReader(in), new OutputStreamWriter(out), null);
         } catch (Exception e) {
             error("Error during pipeline processing", e);
         }
