@@ -25,6 +25,8 @@ import org.xml.sax.ContentHandler;
 import org.xml.sax.SAXException;
 import org.xml.sax.helpers.AttributesImpl;
 
+import plenix.components.xml.sax.AbstractSAXProducer;
+
 /**
  * This class implements the <code>org.w3c.css.sac.DocumentHandler</code> by generating
  * appropriate SAX events for each parser event. This class is the workhorse of the
@@ -52,7 +54,7 @@ import org.xml.sax.helpers.AttributesImpl;
  * as defined by the W3C's
  * <a href="http://www.w3.org/TR/2000/REC-DOM-Level-2-Core-20001113/" target="_top">Level-2 DOM</a>. 
  */
-public class SAXCSSDocumentHandler implements DocumentHandler {
+public class SAXCSSDocumentHandler extends AbstractSAXProducer implements DocumentHandler {
     /** The XCSS namespace URI (xcss/1.0) */
     public static final String XCSS_NAMESPACE_URI = "xcss/1.0";
     /** The default XCSS namespace prefix (xcss) */
@@ -170,7 +172,7 @@ public class SAXCSSDocumentHandler implements DocumentHandler {
      * 
      * @return The constant XCSS_NAMESPACE_URI (xcss/1.0)
      */
-    public static String getNamespaceUri() {
+    public String getNamespaceUri() {
         return XCSS_NAMESPACE_URI;
     }
 
@@ -757,58 +759,6 @@ public class SAXCSSDocumentHandler implements DocumentHandler {
             }
         }
     }
-
-    protected void startElement(String elementName) throws SAXException {
-        getContentHandler().startElement(getNamespaceUri(), elementName, qName(elementName), attributes);
-        attributes.clear();
-    }
-
-    protected void endElement(String elementName) throws SAXException {
-        getContentHandler().endElement(getNamespaceUri(), elementName, qName(elementName));
-    }
-
-    protected void element(String elementName) throws SAXException {
-        String qName = qName(elementName);
-        getContentHandler().startElement(getNamespaceUri(), elementName, qName, attributes);
-        getContentHandler().endElement(getNamespaceUri(), elementName, qName);
-        attributes.clear();
-    }
-
-    protected void textElement(String elementName, String text) throws SAXException {
-        String qName = qName(elementName);
-        getContentHandler().startElement(getNamespaceUri(), elementName, qName, attributes);
-        text(text);
-        getContentHandler().endElement(getNamespaceUri(), elementName, qName);
-        attributes.clear();
-    }
-
-    protected void text(String text) throws SAXException {
-        if (text != null) {
-            getContentHandler().characters(text.toCharArray(), 0, text.length());
-        }
-    }
-
-    protected void addAttribute(String name, String value) {
-        if (value == null) {
-            value = "";
-        }
-        attributes.addAttribute("", name, qName(name), "", value);
-    }
-
-    protected void addAttribute(String uri, String name, String qName, String value) {
-        if (value == null) {
-            value = "";
-        }
-        attributes.addAttribute(uri, name, qName, "", value);
-    }
-
-    protected String qName(String elementName) {
-        if ("".equals(getNamespacePrefix())) {
-            return elementName;
-        }
-        return getNamespacePrefix() + ":" + elementName;
-    }
-
     /**
      * 
      * @param contentHandler The associated content handler

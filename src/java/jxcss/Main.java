@@ -12,7 +12,6 @@ import javax.xml.transform.stream.StreamSource;
 
 import plenix.components.xml.sax.pipeline.SAXPipeline;
 import plenix.components.xml.sax.pipeline.SAXPipelineFactory;
-import plenix.components.xml.sax.pipeline.generator.CSSParserSAXGeneratorFactory;
 import plenix.components.xml.sax.pipeline.serializer.ApacheXMLSAXSerializerFactory;
 import plenix.components.xml.sax.pipeline.transformer.TraxSAXTransformerFactory;
 
@@ -34,7 +33,7 @@ import plenix.components.xml.sax.pipeline.transformer.TraxSAXTransformerFactory;
                 (albeit less concise) structure of the stylesheet.
             </li>
             <li>
-                The optional <code>-p</code> specifies what SAC parser to use.
+                The optional <code>-p</code> option specifies what SAC parser to use.
                 Recognized values are:
                 <ul>
                     <li>
