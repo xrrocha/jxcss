@@ -39,13 +39,13 @@ p.todo {
 }
 
 .code {
-    font-size: 12pt;
+    font-size: 14pt;
     font-family: Terminal;
 }
 
 pre.code {
     color: navy;
-    font-size: 12pt;
+    font-size: 10pt;
     font-family: Terminal;
 }
 
