@@ -1,0 +1,90 @@
+body {
+    font-family: Verdana;
+    font-size: 10pt;
+    margin-right: 16px;
+    margin-left: 16px;
+}
+
+p {
+    text-align: justify;
+}
+
+.error {
+	color:red;
+    text-align: justify;
+}
+    
+h1.topTitle {
+    color: white;
+    font-style: italic;
+    text-align: center;
+    background-color: navy;
+}
+    
+p.author {
+    text-align: right;
+    font-style: italic;
+}
+    
+h2.sectionTitle {
+    color: navy;
+    font-size: 150%;
+    font-weight: bold;
+    text-align: left;
+}
+
+p.todo {
+    font-style: italic;
+    text-align: center;
+}
+
+.code {
+    font-size: 14pt;
+    font-family: Terminal;
+}
+
+pre.code {
+    color: navy;
+    font-size: 12pt;
+    font-family: Terminal;
+}
+
+blockquote {
+    font-style: italic;
+    text-align: justify;
+}
+
+.centered {
+    text-align: center;
+}
+
+p.note {
+    font-size: 80%;
+}
+
+.normal {
+    color: blue;
+    background-color: white;
+    cursor: default;
+}
+
+.hightlight {
+    color: white;
+    background-color: blue;
+    cursor: pointer;
+}
+
+ul.menu {
+}
+
+li.menuItem {
+	color: navy;
+	text-align: justify;
+	margin-bottom: 4px;
+	list-style: square url(img/menu-bullet.png) outside;
+}
+
+li {
+	text-align: justify;
+	margin-bottom: 6px;
+}

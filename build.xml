@@ -10,6 +10,13 @@
             </fileset>
         </jar>
     </target>
+	
+	<target name="javadoc" depends="compile">
+		<javadoc destdir="${www.javadoc.dir}"
+		         windowtitle="JXCSS API Documentation">
+			<fileset dir="${src.java.dir}"/>
+		</javadoc>
+	</target>
 
     <target name="compile" depends="setup">
         <javac destdir="${build.classes.dir}"
@@ -22,6 +29,8 @@
 
 	<target name="setup">
         <mkdir dir="${build.dir}"/>
+        <mkdir dir="${build.classes.dir}"/>
+        <mkdir dir="${www.javadoc.dir}"/>
 	</target>
 
 	<path id="base-classpath">

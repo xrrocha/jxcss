@@ -1,45 +1,156 @@
 <html>
-<head>
-<title>Project Home Page</title>
-<meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
-</head>
+    <head>
+        <title>JXCSS: A SAX Adapter for SAX CSS2 Parser</title>
+        <link rel="stylesheet" href="jxcss.css" type="text/css" />
+    </head>
+    <body>
+        <h1 class="topTitle">
+            JXCSS: A SAX Adapter for SAX CSS2 Parser
+        </h1>
+        
+        <h2 class="sectionTitle">Introduction</h2>
+        <p>
+            JXCSS is a SAX-generating CSS2 parser adapter written in Java.
+            JXCSS can be used to easily instrument or refactor existing CSS stylesheets
+            as well as to dynamically generate new ones.
+        </p>
+        
+        <p>
+            JXCSS is published under the
+            <a href="http://www.apache.org/licenses/LICENSE-2.0">Apache License 2.0</a>
+        </p>
 
-<body bgcolor="#FFFFFF" text="#000000">
-<h1>Default project home page </h1>
-<p>Congratulations on your new java.net project! </p>
-<p>This page is the home page for your new project. This content is appearing 
-  because you have selected the option <b>Use project index.html</b>. To edit 
-  the information displayed on this page, just use CVS to check out your project's 
-  CVS repository and edit index.html in directory www. You can get more information 
-  on how to set-up your local CVS client, click on <b>Version Control</b> on the 
-  left nav bar. </p>
-<p>If you don't want to use CVS to manage your home page, click on the <b>Edit 
-  project</b> link on this page and unclick the option <b>Use project index.html</b>. 
-  Your project home page contents will be generated from the <b>Edit project</b> 
-  field <b>Description</b>. Edit the text on that field to change your home page 
-  contents. Click on <b>Submit changes</b> to save your edits. </p>
-<p>If you are looking for <a href="https://java-net.dev.java.net/ProjectPages.html#templates">sample 
-  home page templates</a>, check out the <a href="https://java-net.dev.java.net/ProjectPages.html">java.net 
-  Project Starter Kit</a>. Copy either of the templates into your project's html 
-  to get started on your project's home page. </p>
-<p>You can find lots of helpful information in the Starter Kit to get your project 
-  started. Some of the things you will find in there include:</p>
-<ul>
-  <li>Hints on how to <a href="https://java-net.dev.java.net/ProjectPages.html#pages">set-up 
-    your project's</a> home page</li>
-  <li>Ideas on how to <a href="https://java-net.dev.java.net/ProjectPages.html#publicity">publicize 
-    your project</a> including RSS feeds</li>
-  <li>Hints on <a href="https://java-net.dev.java.net/pagedesign.html">project 
-    page HTML</a></li>
-  <li>Setting up project <a href="https://java-net.dev.java.net/ProjectPages.html#wiki">wiki 
-    pages</a></li>
-  <li>And places to go if <a href="https://java-net.dev.java.net/ProjectPages.html#feedback">you 
-    have questions</a>.</li>
-</ul>
-<p>Remember that you will attract more new members and your project team will 
-  work more effectively if you, as the project owner, supply sufficient information 
-  about your project for visitors to your project space. Good luck with your new 
-  project! </p>
-</body>
+        <p>
+            JXCSS can be fed from any
+            <a href="http://www.w3.org/Style/CSS/SAC/">SAC</a>-compliant CSS2 parser.
+            As the parser processes  a stylesheet, JXCSS produces a stream of
+            SAX events that model the stylesheet' deep structure.
+            JXCSS can be connected to any SAX content handler, such as an
+            <a href="http://www.w3.org/TR/xslt">XSLT</a> or
+            <a href="http://stx.sourceforge.net/">STX</a>
+            transformation.
+        </p>
+
+        <p>
+            The generated XML conforms with JXCSS's own DTD (XCSS), which models
+            stylesheets in accordance to the W3C Level-2 DOM. An alternative, compact
+            syntax is also available.
+        </p>
+
+        <p>
+            JXCSS has been tested with the
+            <a href="http://cssparser.sourceforge.net/">Steady State</a>,
+            <a href="http://www.w3.org/Style/CSS/SAC/">Flute</a> and
+            <a href="http://xml.apache.org/batik/">Batik</a>
+            SAC CSS2 parsers.
+        </p>
+
+        <br/>
+        <h2 class="sectionTitle">Quick Intro</h2>
+        <p>
+            The command-line incantation is:
+        </p>
+        <pre class="code">
+            java  jxcss.Main  [-c]  [-p ss|flute|batik]  [- | &lt;inputURL&gt;]  [- | &lt;outputFile&gt;]
+        </pre>
+        <p>
+            where:
+        </p>
+        <ul>
+            <li>
+                The optional <code>-c</code> option instructs JXCSS to produce output in the
+                <i>compact</i> syntax. The compact syntax exposes a less verbose
+                (albeit less concise) structure of the stylesheet.
+            </li>
+            <li>
+                The optional <code>-p</code> specifies what SAC parser to use.
+                Recognized values are:
+                <ul>
+                    <li>
+                        <code>ss</code>: Use the Steady State CSS parser. This is the
+                        current default.
+                    </li>
+                    <li>
+                        <code>flute</code>: Use the W3C Flute parser.
+                    </li>
+                    <li>
+                        <code>batik</code>: Use the Apache Batik parser.
+                    </li>
+                </ul>
+            </li>
+            <li>
+                The optional first argument names the input stylesheet URL. This can be:
+                <ul>
+                    <li>
+                        A fully qualified URL such as
+                        <code>http://localhost:8080/css/default.css</code> or
+                        <code>file:///var/www/htdocs/css/default.css</code>.
+                    </li>
+                    <li>
+                        Un unqualified URL such as
+                        <code>default.css</code> or
+                        <code>c:\docs\default.css</code>.
+                        Unqualified URL's are interpreted as local file names.
+                    </li>
+                    <li>
+                        A dash (<code>-</code>) which stands for the operating system
+                        standard input.
+                    </li>
+                </ul>
+                When omitted, the first argument defaults to the operating system's
+                standard input.
+            </li>
+            <li>
+                The optional second argument names a local file where the output XML is
+                to be stored. If omitted or specified as a dash (<code>-</code>),
+                output is sent to the operating system's standard output.
+            </li>
+        </ul>
+        
+        <p>
+            To use programmatically:
+        </p>
+        <pre class="code">
+            jxcss.CSSParserFactory parserFactory;
+            org.xml.sax.ContentHandler contentHandler;
+            . . .
+            // Initialize the parser factory and the content handler
+            . . .
+            org.w3c.css.sac.Parser parser = parserFactory.newParser();
+            jxcss.SAXCSSDocumentHandler documentHandler =
+                new jxcss.SAXCSSDocumentHandler(contentHandler);
+            parser.setDocumentHandler(documentHandler);
+            parser.parseStyleSheet(new InputSource("stylesheet.css"));
+        </pre>
+        <p>
+            See the <a href="javadoc/index.html">javadocs</a> for details.
+        </p>
+
+        <br/>
+        <h2 class="sectionTitle">Status</h2>
+        <p>
+            JXCSS is a young project, so some functionality is either incomplete or missing.
+            For the common application, though, it works acceptably well: most CSS stylesheets
+            will generate correct, complete XML output.
+        </p>
+        <p>
+            Work is required in the following areas:
+        </p>
+        <ul>
+            <li>
+                <i>Stylesheets</i>. Stylesheets need to be written to generate and pretty-print
+                CSS source code.
+            </li>
+            <li>
+                <i>Parser compatibility</i>: Currently, only the Steady State works out of the
+                box. Problems with function names need to be fixed for the Flute and Batik parsers.
+            </li>
+            <li>
+                <i>Error reporting</i>: Better exception handling and reporting is needed.
+            </li>
+            <li>
+                <i>To Do</i>: Add logging, tests. Complete DTD's...
+            </li>
+        </ul>
+    </body>
 </html>
-

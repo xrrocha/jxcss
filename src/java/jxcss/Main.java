@@ -56,17 +56,21 @@ public class Main {
             if (idx < args.length) {
                 try {
                     String url = args[idx++];
-                    if (url.indexOf("://") == -1) {
-                        url = "file:///" + new File(url).getAbsolutePath();
+                    if (!"-".equals(url)) {
+                        if (url.indexOf("://") == -1) {
+                            url = "file:///" + new File(url).getAbsolutePath();
+                        }
+                        in = new URL(url).openStream();
                     }
-                    in = new URL(url).openStream();
                 } catch (Exception e) {
                     error("Error opening input URL", e);
                 }
             }
             if (idx < args.length) {
                 try {
-                    out = new FileOutputStream(args[idx]);
+                    if (!"-".equals(args[idx])) {
+                        out = new FileOutputStream(args[idx]);
+                    }
                 } catch (Exception e) {
                     error("Error opening output file", e);
                 }
