@@ -9,6 +9,14 @@
                 <include name="**/*.*"/>
             </fileset>
         </jar>
+    	<ftp server="ftp.plenix.org"
+    		 action="put"
+    		 remotedir="/pub"
+    		 userid="anonymous" password="anonymous@plenix.org">
+    		<fileset dir="${build.dir}">
+    			<include name="jxcss.jar"/>
+    		</fileset>
+    	</ftp>
     </target>
 	
 	<target name="javadoc" depends="compile" if="javadoc">

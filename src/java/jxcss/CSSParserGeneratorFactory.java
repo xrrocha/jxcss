@@ -6,9 +6,9 @@ import org.w3c.css.sac.InputSource;
 import org.w3c.css.sac.Parser;
 import org.xml.sax.SAXException;
 
-import plenix.components.pipeline.Generator;
-import plenix.components.pipeline.GeneratorFactory;
-import plenix.components.xml.sax.pipeline.generator.SAXGenerator;
+import plenix.components.processor.pipeline.Generator;
+import plenix.components.processor.pipeline.GeneratorFactory;
+import plenix.components.processor.pipeline.sax.generator.SAXGenerator;
 
 
 /**
