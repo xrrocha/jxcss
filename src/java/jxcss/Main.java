@@ -10,8 +10,8 @@ import java.net.URL;
 
 import javax.xml.transform.stream.StreamSource;
 
+import plenix.components.xml.sax.pipeline.DefaultSAXPipelineFactory;
 import plenix.components.xml.sax.pipeline.SAXPipeline;
-import plenix.components.xml.sax.pipeline.SAXPipelineFactory;
 import plenix.components.xml.sax.pipeline.serializer.ApacheXMLSAXSerializerFactory;
 import plenix.components.xml.sax.pipeline.transformer.TraxSAXTransformerFactory;
 
@@ -139,7 +139,7 @@ public class Main {
                 }
             }
 
-            SAXPipelineFactory pipelineFactory = new SAXPipelineFactory();
+            DefaultSAXPipelineFactory pipelineFactory = new DefaultSAXPipelineFactory();
             pipelineFactory.setGeneratorFactory(new CSSParserSAXGeneratorFactory(
                     SAXCSSDocumentHandler.DEFAULT_NAMESPACE_PREFIX, parserFactory));
             if (compact) {
