@@ -1,0 +1,8 @@
+<!ENTITY % selector "(element-node-selector|conditional-selector)">
+
+<!ELEMENT css-stylesheet (style)+>
+<!ELEMENT style ((%selector;)+, property+)>
+<!ELEMENT element-node-selector ()>
+<!ATTLIST element-node-selector 
+          local-name CDATA #REQUIRED
+          namespace-uri CDATA>

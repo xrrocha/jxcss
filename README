@@ -1,0 +1,13 @@
+JXCSS is a SAX-generating CSS2 parser adapter written in Java.
+
+JXCSS can be fed from any SAC-compliant CSS2 parser. As the parser processes a stylesheet,
+JXCSS produces a stream of SAX events that model the stylesheet's deep structure. JXCSS
+can be connected to any SAX content handler, such as an XSLT or STX transformation.
+
+The generated XML conforms with JXCSS's own DTD (XCSS), which models stylesheets in
+accordance to the W3C Level-2 DOM. An alternative, compact syntax is also available.
+
+JXCSS can be used to easily instrument or refactor existing CSS stylesheets as well as to
+dynamically generate new ones.
+
+JXCSS has been tested with the SteadyState, Flute and Batik SAC CSS2 parsers.

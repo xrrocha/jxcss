@@ -1,0 +1,6 @@
+- Complete DTD's
+- Write a CSS-generating stylesheet
+- Include SAC classes in jar file
+- Fix Batik's getFunctionName() problem: throws IllegalStateException
+- Fix Flute's getFunctionName() problem: returns parent property's name
+- Improve on CSSException stack trace and message

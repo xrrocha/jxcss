@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<project name="jxcss" basedir="." default="jar">
+    <property file="ant.properties"/>
+
+	<target name="jar" depends="compile">
+        <jar destfile="${build.dir}/${jar}">
+            <fileset dir="${build.classes.dir}">
+                <include name="**/*.*"/>
+            </fileset>
+        </jar>
+    </target>
+
+    <target name="compile" depends="setup">
+        <javac destdir="${build.classes.dir}"
+        	   target="1.4" source="1.4" debug="true"
+               deprecation="false" optimize="false" failonerror="true">
+            <src path="${src.java.dir}"/>
+            <classpath refid="base-classpath"/>
+        </javac>
+    </target>
+
+	<target name="setup">
+        <mkdir dir="${build.dir}"/>
+	</target>
+
+	<path id="base-classpath">
+		<pathelement path="${build.classes.dir}"/>
+        <fileset dir="${lib.dir}">
+            <include name="${batik-css.jar}"/>
+            <include name="${batik-util.jar}"/>
+            <include name="${flute.jar}"/>
+            <include name="${sac.jar}"/>
+            <include name="${ss_css2.jar}"/>
+            <include name="${xalan.jar}"/>
+        </fileset>
+    </path>
+</project>
