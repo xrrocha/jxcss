@@ -122,6 +122,7 @@ public class SAXCSSDocumentHandler implements DocumentHandler {
     public static final String URI = "uri";
     public static final String VALUE = "value";
 
+    private String name;
     private String namespacePrefix = "";
     private ContentHandler contentHandler;
 
@@ -186,6 +187,9 @@ public class SAXCSSDocumentHandler implements DocumentHandler {
     public void startDocument(InputSource is) throws CSSException {
         try {
             getContentHandler().startDocument();
+            if (getName() != null) {
+                addAttribute("name", getName());
+            }
             startElement(CSS_STYLESHEET);
         } catch (Exception e) {
             throw new CSSException(e);
@@ -842,5 +846,19 @@ public class SAXCSSDocumentHandler implements DocumentHandler {
      */
     public String getNamespacePrefix() {
         return namespacePrefix;
+    }
+
+    /**
+     * @param name The name to set.
+     */
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    /**
+     * @return Returns the name.
+     */
+    public String getName() {
+        return name;
     }
 }
