@@ -17,9 +17,73 @@ import plenix.components.xml.sax.pipeline.serializer.ApacheXMLSerializerFactory;
 import plenix.components.xml.sax.pipeline.transformer.TraxSAXTransformerFactory;
 
 /**
- * Main.
+ * This class provides the command-line interface for JXCSS.
+        <p>
+            The command-line incantation is:
+        </p>
+        <pre class="code">
+            java  jxcss.Main  [-c]  [-p ss|flute|batik]  [- | &lt;inputURL&gt;]  [- | &lt;outputFile&gt;]
+        </pre>
+        <p>
+            where:
+        </p>
+        <ul>
+            <li>
+                The optional <code>-c</code> option instructs JXCSS to produce output in the
+                <i>compact</i> syntax. The compact syntax exposes a less verbose
+                (albeit less concise) structure of the stylesheet.
+            </li>
+            <li>
+                The optional <code>-p</code> specifies what SAC parser to use.
+                Recognized values are:
+                <ul>
+                    <li>
+                        <code>ss</code>: Use the Steady State CSS parser. This is the
+                        current default.
+                    </li>
+                    <li>
+                        <code>flute</code>: Use the W3C Flute parser.
+                    </li>
+                    <li>
+                        <code>batik</code>: Use the Apache Batik parser.
+                    </li>
+                </ul>
+            </li>
+            <li>
+                The optional first argument names the input stylesheet URL. This can be:
+                <ul>
+                    <li>
+                        A fully qualified URL such as
+                        <code>http://localhost:8080/css/default.css</code> or
+                        <code>file:///var/www/htdocs/css/default.css</code>.
+                    </li>
+                    <li>
+                        Un unqualified URL such as
+                        <code>default.css</code> or
+                        <code>c:\docs\default.css</code>.
+                        Unqualified URL's are interpreted as local file names.
+                    </li>
+                    <li>
+                        A dash (<code>-</code>) which stands for the operating system
+                        standard input.
+                    </li>
+                </ul>
+                When omitted, the first argument defaults to the operating system's
+                standard input.
+            </li>
+            <li>
+                The optional second argument names a local file where the output XML is
+                to be stored. If omitted or specified as a dash (<code>-</code>),
+                output is sent to the operating system's standard output.
+            </li>
+        </ul>
  */
 public class Main {
+    /**
+     * Command-line interface for JXCSS.
+     * 
+     * @param args The command-line arguments (explained above)
+     */
     public static void main(String[] args) {
         try {
             boolean compact = false;
