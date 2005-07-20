@@ -25,8 +25,6 @@ import org.xml.sax.ContentHandler;
 import org.xml.sax.SAXException;
 import org.xml.sax.helpers.AttributesImpl;
 
-import plenix.components.xml.sax.SAXContentProducer;
-
 /**
  * This class implements the <code>org.w3c.css.sac.DocumentHandler</code> by generating
  * appropriate SAX events for each parser event. This class is the workhorse of the
@@ -54,7 +52,7 @@ import plenix.components.xml.sax.SAXContentProducer;
  * as defined by the W3C's
  * <a href="http://www.w3.org/TR/2000/REC-DOM-Level-2-Core-20001113/" target="_top">Level-2 DOM</a>. 
  */
-public class SAXCSSDocumentHandler extends SAXContentProducer implements DocumentHandler {
+public class SAXCSSDocumentHandler implements DocumentHandler {
     /** The XCSS namespace URI (xcss/1.0) */
     public static final String XCSS_NAMESPACE_URI = "xcss/1.0";
     /** The default XCSS namespace prefix (xcss) */
@@ -125,9 +123,11 @@ public class SAXCSSDocumentHandler extends SAXContentProducer implements Documen
     public static final String VALUE = "value";
 
     private String name;
-    private String namespacePrefix = "";
-    private ContentHandler contentHandler;
 
+    private String namespaceUri = XCSS_NAMESPACE_URI;
+    private String namespacePrefix = DEFAULT_NAMESPACE_PREFIX;
+    
+    private ContentHandler contentHandler;
     private AttributesImpl attributes = new AttributesImpl();
 
     /**
@@ -165,15 +165,6 @@ public class SAXCSSDocumentHandler extends SAXContentProducer implements Documen
     public SAXCSSDocumentHandler(ContentHandler contentHandler, String namespacePrefix) {
         setContentHandler(contentHandler);
         setNamespacePrefix(namespacePrefix);
-    }
-
-    /**
-     * The accessor for the namespace URI property.
-     * 
-     * @return The constant XCSS_NAMESPACE_URI (xcss/1.0)
-     */
-    public String getNamespaceUri() {
-        return XCSS_NAMESPACE_URI;
     }
 
     /**
@@ -761,6 +752,78 @@ public class SAXCSSDocumentHandler extends SAXContentProducer implements Documen
             lexicalUnit = lexicalUnit.getNextLexicalUnit();
         }
     }
+
+    private void startElement(String elementName) {
+        try {
+            getContentHandler().startElement(getNamespaceUri(), elementName, qName(elementName), attributes);
+            attributes.clear();
+        } catch (SAXException e) {
+            throw new RuntimeException(e.getMessage(), e);
+        }
+    }
+
+    private void endElement(String elementName) {
+        try {
+            getContentHandler().endElement(getNamespaceUri(), elementName, qName(elementName));
+        } catch (SAXException e) {
+            throw new RuntimeException(e.getMessage(), e);
+        }
+    }
+
+    private void element(String elementName) {
+        try {
+            String qName = qName(elementName);
+            getContentHandler().startElement(getNamespaceUri(), elementName, qName, attributes);
+            getContentHandler().endElement(getNamespaceUri(), elementName, qName);
+            attributes.clear();
+        } catch (SAXException e) {
+            throw new RuntimeException(e.getMessage(), e);
+        }
+    }
+
+    private void textElement(String elementName, String text) {
+        try {
+            String qName = qName(elementName);
+            getContentHandler().startElement(getNamespaceUri(), elementName, qName, attributes);
+            text(text);
+            getContentHandler().endElement(getNamespaceUri(), elementName, qName);
+            attributes.clear();
+        } catch (SAXException e) {
+            throw new RuntimeException(e.getMessage(), e);
+        }
+    }
+
+    private void text(String text) {
+        try {
+            if (text != null) {
+                getContentHandler().characters(text.toCharArray(), 0, text.length());
+            }
+        } catch (SAXException e) {
+            throw new RuntimeException(e.getMessage(), e);
+        }
+    }
+
+    private void addAttribute(String name, String value) {
+        if (value == null) {
+            value = "";
+        }
+        attributes.addAttribute("", name, qName(name), "", value);
+    }
+
+    private void addAttribute(String uri, String name, String qName, String value) {
+        if (value == null) {
+            value = "";
+        }
+        attributes.addAttribute(uri, name, qName, "", value);
+    }
+
+    private String qName(String elementName) {
+        if ("".equals(getNamespacePrefix())) {
+            return elementName;
+        }
+        return getNamespacePrefix() + ":" + elementName;
+    }
+
     /**
      * 
      * @param contentHandler The associated content handler
@@ -782,14 +845,10 @@ public class SAXCSSDocumentHandler extends SAXContentProducer implements Documen
     }
 
     /**
-     * @param namespacePrefix The namespace prefix to be used
-     * 
-     * @throws NullPointerException when the passed namespace is null
+     * @param namespacePrefix
+     *            The namespacePrefix to set.
      */
     public void setNamespacePrefix(String namespacePrefix) {
-        if (namespacePrefix == null) {
-            throw new NullPointerException("Namespace prefix cannot be null");
-        }
         this.namespacePrefix = namespacePrefix;
     }
 
@@ -798,6 +857,20 @@ public class SAXCSSDocumentHandler extends SAXContentProducer implements Documen
      */
     public String getNamespacePrefix() {
         return namespacePrefix;
+    }
+
+    /**
+     * @param namespaceUri The namespaceUri to set.
+     */
+    public void setNamespaceUri(String namespaceUri) {
+        this.namespaceUri = namespaceUri;
+    }
+
+    /**
+     * @return Returns the namespaceUri.
+     */
+    public String getNamespaceUri() {
+        return namespaceUri;
     }
 
     /**

@@ -5,18 +5,19 @@ import java.io.FileOutputStream;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.io.OutputStream;
-import java.io.OutputStreamWriter;
 import java.net.URL;
-import java.util.ArrayList;
-import java.util.List;
 
+import javax.xml.transform.TransformerFactory;
+import javax.xml.transform.sax.SAXResult;
+import javax.xml.transform.sax.SAXTransformerFactory;
+import javax.xml.transform.sax.TransformerHandler;
 import javax.xml.transform.stream.StreamSource;
 
-import plenix.components.processor.pipeline.Generator;
-import plenix.components.processor.pipeline.PipelineProcessor;
-import plenix.components.processor.pipeline.Serializer;
-import plenix.components.processor.pipeline.sax.serializer.ApacheXMLSerializer;
-import plenix.components.processor.pipeline.sax.transformer.TraxTransformer;
+import org.apache.xml.serializer.ToXMLStream;
+import org.w3c.css.sac.DocumentHandler;
+import org.w3c.css.sac.InputSource;
+import org.w3c.css.sac.Parser;
+import org.xml.sax.ContentHandler;
 
 /**
  * This class provides the command-line interface for JXCSS.
@@ -109,13 +110,14 @@ public class Main {
                     }
                 }
             }
-            CSSParserFactory parserFactory = null;
+            
+            Parser cssParser = null;
             if ("ss".equals(parserName)) {
-                parserFactory = new SteadyStateCSSParserFactory();
+                cssParser = new com.steadystate.css.parser.SACParser();
             } else if ("flute".equals(parserName)) {
-                parserFactory = new FluteCSSParserFactory();
+                cssParser = new org.w3c.flute.parser.Parser();
             } else if ("batik".equals(parserName)) {
-                parserFactory = new BatikCSSParserFactory();
+                cssParser = new org.apache.batik.css.parser.Parser();
             } else {
                 error("Invalid parser name: " + parserName);
             }
@@ -142,17 +144,24 @@ public class Main {
                     error("Error opening output file", e);
                 }
             }
-
-            Generator generator = new CSSParserGenerator(parserFactory, SAXCSSDocumentHandler.DEFAULT_NAMESPACE_PREFIX);
-            List transformers = new ArrayList();
-            if (compact) {
-                InputStream sis = Main.class.getResourceAsStream("compact-xcss.xsl");
-                transformers.add(new TraxTransformer(new StreamSource(sis)));
-            }
-            Serializer serializer = new ApacheXMLSerializer();
-            PipelineProcessor pipeline = new PipelineProcessor(generator, transformers, serializer);
             
-            pipeline.process(new InputStreamReader(in), new OutputStreamWriter(out), null);
+            ToXMLStream serializer = new ToXMLStream();
+            serializer.setIndent(true);
+            serializer.setIndentAmount(4);
+            serializer.setOutputStream(out);
+
+            ContentHandler saxContentHandler = serializer;
+            if (compact) {
+                InputStream is = Main.class.getResourceAsStream("compact-xcss.xsl");
+                SAXTransformerFactory factory = (SAXTransformerFactory) TransformerFactory.newInstance();
+                TransformerHandler handler = factory.newTransformerHandler(new StreamSource(is));
+                handler.setResult(new SAXResult(serializer));
+                saxContentHandler = handler;
+            }
+            
+            DocumentHandler cssDocumentHandler = new SAXCSSDocumentHandler(saxContentHandler);
+            cssParser.setDocumentHandler(cssDocumentHandler);
+            cssParser.parseStyleSheet(new InputSource(new InputStreamReader(in)));
         } catch (Exception e) {
             e.printStackTrace();
             error("Error during pipeline processing", e);
