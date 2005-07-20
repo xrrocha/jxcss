@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE beans PUBLIC "-//SPRING//DTD BEAN//EN" "http://www.springframework.org/dtd/spring-beans.dtd">
+
+<!--
+      CSS Parser Factory Configuration.
+  -->
+<beans>
+	<bean id="steadyState" singleton="false" class="com.steadystate.css.parser.SACParser"/>
+	<bean id="flute" singleton="false" class="org.w3c.flute.parser.Parser"/>
+	<bean id="batik" singleton="false" class="org.apache.batik.css.parser.Parser"/>
+</beans>
+

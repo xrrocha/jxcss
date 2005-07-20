@@ -112,7 +112,7 @@ public class Main {
             }
             
             Parser cssParser = null;
-            if ("ss".equals(parserName)) {
+            if ("steadyState".equals(parserName)) {
                 cssParser = new com.steadystate.css.parser.SACParser();
             } else if ("flute".equals(parserName)) {
                 cssParser = new org.w3c.flute.parser.Parser();
