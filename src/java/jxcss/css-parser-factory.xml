@@ -5,6 +5,10 @@
       CSS Parser Factory Configuration.
   -->
 <beans>
+	<bean id="cssParserFactory" class="jxcss.BeanFactoryCSSParserFactory">
+		<property name="preferredParserName"><value>steadyState</value></property>
+	</bean>
+	
 	<bean id="steadyState" singleton="false" class="com.steadystate.css.parser.SACParser"/>
 	<bean id="flute" singleton="false" class="org.w3c.flute.parser.Parser"/>
 	<bean id="batik" singleton="false" class="org.apache.batik.css.parser.Parser"/>

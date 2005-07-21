@@ -8,4 +8,12 @@ public abstract class AbstractCSSParserFactory implements CSSParserFactory {
     public Parser newParser() {
         return newParserFor(preferredParserName);
     }
+
+	public String getPreferredParserName() {
+		return preferredParserName;
+	}
+
+	public void setPreferredParserName(String preferredParserName) {
+		this.preferredParserName = preferredParserName;
+	}
 }

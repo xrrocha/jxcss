@@ -14,6 +14,9 @@ import javax.xml.transform.sax.TransformerHandler;
 import javax.xml.transform.stream.StreamSource;
 
 import org.apache.xml.serializer.ToXMLStream;
+import org.springframework.beans.factory.BeanFactory;
+import org.springframework.beans.factory.xml.XmlBeanFactory;
+import org.springframework.core.io.ClassPathResource;
 import org.w3c.css.sac.DocumentHandler;
 import org.w3c.css.sac.InputSource;
 import org.w3c.css.sac.Parser;
@@ -41,7 +44,7 @@ import org.xml.sax.ContentHandler;
                 Recognized values are:
                 <ul>
                     <li>
-                        <code>ss</code>: Use the Steady State CSS parser. This is the
+                        <code>steadyState</code>: Use the Steady State CSS parser. This is the
                         current default.
                     </li>
                     <li>
@@ -90,7 +93,7 @@ public class Main {
     public static void main(String[] args) {
         try {
             boolean compact = false;
-            String parserName = "ss";
+            String parserName = null;
             InputStream in = System.in;
             OutputStream out = System.out;
 
@@ -109,17 +112,6 @@ public class Main {
                         error("-p option requires an argument");
                     }
                 }
-            }
-            
-            Parser cssParser = null;
-            if ("steadyState".equals(parserName)) {
-                cssParser = new com.steadystate.css.parser.SACParser();
-            } else if ("flute".equals(parserName)) {
-                cssParser = new org.w3c.flute.parser.Parser();
-            } else if ("batik".equals(parserName)) {
-                cssParser = new org.apache.batik.css.parser.Parser();
-            } else {
-                error("Invalid parser name: " + parserName);
             }
             if (idx < args.length) {
                 try {
@@ -145,6 +137,25 @@ public class Main {
                 }
             }
             
+            
+        	BeanFactory beanFactory = null;
+            Thread currentThread = Thread.currentThread();
+            ClassLoader classLoader = currentThread.getContextClassLoader();
+            try {
+            	beanFactory = new XmlBeanFactory(new ClassPathResource("jxcss/css-parser-factory.xml"));
+            } finally {
+                currentThread.setContextClassLoader(classLoader);
+            }
+
+            CSSParserFactory factory = (CSSParserFactory) beanFactory.getBean("cssParserFactory");
+            Parser cssParser = null;
+            if (parserName == null) {
+            	cssParser = factory.newParser();
+            } else {
+            	cssParser = factory.newParserFor(parserName);
+            }
+            
+            
             ToXMLStream serializer = new ToXMLStream();
             serializer.setIndent(true);
             serializer.setIndentAmount(4);
@@ -153,8 +164,8 @@ public class Main {
             ContentHandler saxContentHandler = serializer;
             if (compact) {
                 InputStream is = Main.class.getResourceAsStream("compact-xcss.xsl");
-                SAXTransformerFactory factory = (SAXTransformerFactory) TransformerFactory.newInstance();
-                TransformerHandler handler = factory.newTransformerHandler(new StreamSource(is));
+                SAXTransformerFactory stFactory = (SAXTransformerFactory) TransformerFactory.newInstance();
+                TransformerHandler handler = stFactory.newTransformerHandler(new StreamSource(is));
                 handler.setResult(new SAXResult(serializer));
                 saxContentHandler = handler;
             }
@@ -164,7 +175,7 @@ public class Main {
             cssParser.parseStyleSheet(new InputSource(new InputStreamReader(in)));
         } catch (Exception e) {
             e.printStackTrace();
-            error("Error during pipeline processing", e);
+            error("Error during CSS transformation", e);
         }
     }
 
@@ -186,7 +197,7 @@ public class Main {
     }
 
     private static void usage() {
-        System.err.println("Usage: jxcss.Main [-c] [-p ss|flute|batik] [input-url] [output-file]");
+        System.err.println("Usage: jxcss.Main [-c] [-p steadyState|flute|batik] [input-url] [output-file]");
         System.exit(1);
     }
 }

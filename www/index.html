@@ -51,7 +51,7 @@
             The command-line incantation is:
         </p>
         <pre class="code">
-            java  jxcss.Main  [-c]  [-p ss|flute|batik]  [- | &lt;inputURL&gt;]  [- | &lt;outputFile&gt;]
+            java  jxcss.Main  [-c]  [-p steadyState|flute|batik]  [- | &lt;inputURL&gt;]  [- | &lt;outputFile&gt;]
         </pre>
         <p>
             where:
@@ -67,7 +67,7 @@
                 Recognized values are:
                 <ul>
                     <li>
-                        <code>ss</code>: Use the Steady State CSS parser. This is the
+                        <code>steadyState</code>: Use the Steady State CSS parser. This is the
                         current default.
                     </li>
                     <li>
@@ -155,9 +155,13 @@
                 </ul>
             </li>
             <li>
-                For command-line operation only, the
-                <code>plenix-sax.jar</code> library which contains support
-                for SAX pipelines.
+            	Spring-related libraries:
+            	<ul>
+            		<li><code>spring-core.jar</code></li>
+            		<li><code>spring-beans.jar</code></li>
+            		<li><code>commons-logging.jar</code></li>
+            		<li><code>log4j.jar</code></li>
+            	</ul>
             </li>
         </ul>
 

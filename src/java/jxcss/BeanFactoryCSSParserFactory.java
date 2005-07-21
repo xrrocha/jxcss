@@ -1,23 +1,17 @@
 package jxcss;
 
 import org.springframework.beans.factory.BeanFactory;
+import org.springframework.beans.factory.BeanFactoryAware;
 import org.springframework.beans.factory.NoSuchBeanDefinitionException;
 import org.springframework.beans.factory.xml.XmlBeanFactory;
 import org.springframework.core.io.ClassPathResource;
 import org.w3c.css.sac.Parser;
 
-public class BeanFactoryCSSParserFactory extends AbstractCSSParserFactory {
+public class BeanFactoryCSSParserFactory extends AbstractCSSParserFactory implements BeanFactoryAware {
     private BeanFactory beanFactory;
     
-    public BeanFactoryCSSParserFactory() {
-        Thread currentThread = Thread.currentThread();
-        ClassLoader classLoader = currentThread.getContextClassLoader();
-        try {
-            beanFactory = new XmlBeanFactory(new ClassPathResource("jxcss/css-parser-factory.xml")); 
-        } finally {
-            currentThread.setContextClassLoader(classLoader);
-        }
-        
+    public void setBeanFactory(BeanFactory beanFactory) {
+    	this.beanFactory = beanFactory;
     }
 
     public Parser newParserFor(String name) throws IllegalArgumentException {
@@ -25,6 +19,8 @@ public class BeanFactoryCSSParserFactory extends AbstractCSSParserFactory {
             return (Parser) beanFactory.getBean(name);
         } catch (NoSuchBeanDefinitionException nsbe) {
             throw new IllegalArgumentException("No such CSS parser: " + name);
+        } catch (ClassCastException cce) {
+            throw new IllegalArgumentException("Given component is not a CSS parser: " + name);
         }
     }
 }
