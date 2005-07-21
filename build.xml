@@ -1,17 +1,68 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<project name="jxcss" basedir="." default="jar">
+<project name="jxcss" basedir="." default="dist">
     <property file="ant.properties"/>
 
+	<target name="dist" depends="jar,javadoc">
+		<copy todir="${build.dist.dir}">
+	        <fileset dir="${src.resources.dir}">
+	            <include name="${resources.license}"/>
+	            <include name="${resources.readme}"/>
+	        </fileset>
+		</copy>
+		<copy todir="${build.dist.lib.dir}">
+            <fileset dir="${build.dir}">
+                <include name="${jxcss.jar}"/>
+            </fileset>
+            <fileset dir="${lib.dir}">
+                <include name="batik-css.jar"/>
+                <include name="batik-util.jar"/>
+                <include name="sac.jar"/>
+                <include name="ss_css2.jar"/>
+                <include name="spring-core.jar"/>
+                <include name="spring-beans.jar"/>
+                <include name="commons-logging.jar"/>
+                <include name="log4j.jar"/>
+            </fileset>
+		</copy>
+		<copy todir="${build.dist.src.dir}">
+	        <fileset dir="${src.java.dir}">
+	            <include name="**/*.*"/>
+	        </fileset>
+		</copy>
+		<copy todir="${build.dist.src.dir}/jxcss">
+	        <fileset dir="${src.resources.dir}">
+	            <include name="${resources.xslt-stylesheet}"/>
+	            <include name="${resources.bean-factory}"/>
+	        </fileset>
+		</copy>
+		<copy todir="${build.dist.doc.dir}">
+	        <fileset dir="${www.dir}">
+	            <include name="**/*.*"/>
+	        </fileset>
+		</copy>
+        <zip destfile="${build.dir}/${dist.zip}">
+            <fileset dir="${build.dist.dir}">
+                <include name="**/*.*"/>
+            </fileset>
+        </zip>
+    </target>
+
 	<target name="jar" depends="compile">
-        <jar destfile="${build.dir}/${jar}">
+		<copy todir="${build.classes.dir}/jxcss">
+	        <fileset dir="${src.resources.dir}">
+	            <include name="${resources.xslt-stylesheet}"/>
+	            <include name="${resources.bean-factory}"/>
+	        </fileset>
+		</copy>
+        <jar destfile="${build.dir}/${jxcss.jar}">
             <fileset dir="${build.classes.dir}">
                 <include name="**/*.*"/>
             </fileset>
         </jar>
     </target>
 	
-	<target name="javadoc" depends="compile" if="javadoc">
+	<target name="javadoc" depends="compile">
 		<javadoc access="public"
 			     destdir="${www.javadoc.dir}"
 				 classpathref="base-classpath"
@@ -32,6 +83,10 @@
 	<target name="setup">
         <mkdir dir="${build.dir}"/>
         <mkdir dir="${build.classes.dir}"/>
+        <mkdir dir="${build.dist.dir}"/>
+        <mkdir dir="${build.dist.src.dir}"/>
+        <mkdir dir="${build.dist.lib.dir}"/>
+        <mkdir dir="${build.dist.doc.dir}"/>
         <mkdir dir="${www.javadoc.dir}"/>
 	</target>
 

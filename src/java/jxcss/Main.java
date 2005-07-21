@@ -13,7 +13,6 @@ import javax.xml.transform.sax.SAXTransformerFactory;
 import javax.xml.transform.sax.TransformerHandler;
 import javax.xml.transform.stream.StreamSource;
 
-import org.apache.xml.serializer.ToXMLStream;
 import org.springframework.beans.factory.BeanFactory;
 import org.springframework.beans.factory.xml.XmlBeanFactory;
 import org.springframework.core.io.ClassPathResource;
@@ -21,6 +20,8 @@ import org.w3c.css.sac.DocumentHandler;
 import org.w3c.css.sac.InputSource;
 import org.w3c.css.sac.Parser;
 import org.xml.sax.ContentHandler;
+
+import com.sun.org.apache.xml.internal.serializer.ToXMLStream;
 
 /**
  * This class provides the command-line interface for JXCSS.

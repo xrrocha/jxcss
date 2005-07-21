@@ -1,5 +1,4 @@
 - Complete DTD's
-- Add a dist target to build process
 - Add a @name attribute to [compact-]css-stylesheet
 - Improve on CSSException stack trace and message
 - Write a CSS-generating stylesheet
