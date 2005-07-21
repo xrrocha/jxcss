@@ -39,9 +39,9 @@
 
         <p>
             JXCSS has been tested with the
-            <a href="http://cssparser.sourceforge.net/">Steady State</a>,
-            <a href="http://www.w3.org/Style/CSS/SAC/">Flute</a> and
-            <a href="http://xml.apache.org/batik/">Batik</a>
+            <a href="http://xml.apache.org/batik/">Batik 1.6</a>
+            <a href="http://cssparser.sourceforge.net/">Steady State 0.9.4</a>,
+            <a href="http://www.w3.org/Style/CSS/SAC/">Flute 1.3</a> and
             SAC CSS2 parsers.
         </p>
 
@@ -51,7 +51,7 @@
             The command-line incantation is:
         </p>
         <pre class="code">
-            java  jxcss.Main  [-c]  [-p steadyState|flute|batik]  [- | &lt;inputURL&gt;]  [- | &lt;outputFile&gt;]
+            java  jxcss.Main  [-c]  [-p flute|steadyState|batik]  [- | &lt;inputURL&gt;]  [- | &lt;outputFile&gt;]
         </pre>
         <p>
             where:
@@ -67,14 +67,14 @@
                 Recognized values are:
                 <ul>
                     <li>
-                        <code>steadyState</code>: Use the Steady State CSS parser. This is the
+                        <code>batik</code>: Use the Apache Batik parser. This is the
                         current default.
                     </li>
                     <li>
-                        <code>flute</code>: Use the W3C Flute parser.
+                        <code>steadyState</code>: Use the Steady State CSS parser.
                     </li>
                     <li>
-                        <code>batik</code>: Use the Apache Batik parser.
+                        <code>flute</code>: Use the W3C Flute parser.
                     </li>
                 </ul>
             </li>
@@ -140,17 +140,17 @@
                 A SAC CSS2 parser:
                 <ul>
                     <li>
+                        Batik:
+                        <code>batik-css.jar</code> and
+                        <code>batik-util.jar</code>
+                    </li>
+                    <li>
                         Steady State:
                         <code>ss_css2.jar</code>
                     </li>
                     <li>
                         Flute:
                         <code>flute.jar</code>
-                    </li>
-                    <li>
-                        Batik:
-                        <code>batik-css.jar</code> and
-                        <code>batik-util.jar</code>
                     </li>
                 </ul>
             </li>
@@ -181,14 +181,26 @@
                 CSS source code.
             </li>
             <li>
-                <i>Parser compatibility</i>: Currently, only the Steady State works out of the
-                box. Problems with function names need to be fixed for the Flute and Batik parsers.
+                <i>Parser compatibility</i>: Currently, only the Batik and Steady State parsers
+                   work out of the box. Problems with function names need to be fixed for the
+                   Flute parser.
             </li>
             <li>
                 <i>Error reporting</i>: Better exception handling and reporting is needed.
             </li>
             <li>
-                <i>To Do</i>: Add logging, tests. Complete DTD's...
+                <i>To Do</i>: Add logging, tests, javadoc, complete DTD's...
+            </li>
+            <li>
+            	<i>Longer term plans:</i>
+            	<ul>
+            		<li>
+            			Develop a <a href="http://cocoon.apache.org">Cocoon</a> CSS Generator.
+            		</li>
+            		<li>
+            			Build a web-based CSS editor on top of a JSP application.
+            		</li>
+            	</ul>
             </li>
         </ul>
     </body>

@@ -6,7 +6,7 @@
   -->
 <beans>
 	<bean id="cssParserFactory" class="jxcss.BeanFactoryCSSParserFactory">
-		<property name="preferredParserName"><value>steadyState</value></property>
+		<property name="preferredParserName"><value>batik</value></property>
 	</bean>
 	
 	<bean id="steadyState" singleton="false" class="com.steadystate.css.parser.SACParser"/>
