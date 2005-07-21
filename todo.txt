@@ -1,6 +1,9 @@
 - Complete DTD's
-- Add a @nane attribute to [compact-]css-stylesheet
-- Write a CSS-generating stylesheet
-- Fix Batik's getFunctionName() problem: throws IllegalStateException
-- Fix Flute's getFunctionName() problem: returns parent property's name
+- Add a dist target to build process
+- Add a @name attribute to [compact-]css-stylesheet
 - Improve on CSSException stack trace and message
+- Write a CSS-generating stylesheet
+- Fix Flute's getFunctionName() problem: returns parent property's name
+- Develop a Cocoon CSS Generator
+- Develop a web-based CSS editor (on top of a JSP webapp)
+
