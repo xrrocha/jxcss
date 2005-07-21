@@ -28,7 +28,7 @@ import org.xml.sax.ContentHandler;
             The command-line incantation is:
         </p>
         <pre class="code">
-            java  jxcss.Main  [-c]  [-p ss|flute|batik]  [- | &lt;inputURL&gt;]  [- | &lt;outputFile&gt;]
+            java  jxcss.Main  [-c]  [-p batik|steadyState|flute]  [- | &lt;inputURL&gt;]  [- | &lt;outputFile&gt;]
         </pre>
         <p>
             where:
@@ -44,14 +44,14 @@ import org.xml.sax.ContentHandler;
                 Recognized values are:
                 <ul>
                     <li>
-                        <code>steadyState</code>: Use the Steady State CSS parser. This is the
+                        <code>batik</code>: Use the Apache Batik parser. This is the
                         current default.
                     </li>
                     <li>
-                        <code>flute</code>: Use the W3C Flute parser.
+                        <code>steadyState</code>: Use the Steady State CSS parser.
                     </li>
                     <li>
-                        <code>batik</code>: Use the Apache Batik parser.
+                        <code>flute</code>: Use the W3C Flute parser.
                     </li>
                 </ul>
             </li>

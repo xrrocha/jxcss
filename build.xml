@@ -9,14 +9,6 @@
                 <include name="**/*.*"/>
             </fileset>
         </jar>
-    	<ftp server="ftp.plenix.org"
-    		 action="put"
-    		 remotedir="/pub"
-    		 userid="anonymous" password="anonymous@plenix.org">
-    		<fileset dir="${build.dir}">
-    			<include name="jxcss.jar"/>
-    		</fileset>
-    	</ftp>
     </target>
 	
 	<target name="javadoc" depends="compile" if="javadoc">
@@ -49,10 +41,13 @@
             <include name="${batik-css.jar}"/>
             <include name="${batik-util.jar}"/>
             <include name="${flute.jar}"/>
-            <include name="${plenix-sax.jar}"/>
             <include name="${sac.jar}"/>
             <include name="${ss_css2.jar}"/>
             <include name="${xalan.jar}"/>
+            <include name="${spring-core.jar}"/>
+            <include name="${spring-beans.jar}"/>
+            <include name="${commons-logging.jar}"/>
+            <include name="${log4j.jar}"/>
         </fileset>
     </path>
 </project>
