@@ -807,14 +807,8 @@ public class SAXCSSDocumentHandler implements DocumentHandler {
         if (value == null) {
             value = "";
         }
-        attributes.addAttribute("", name, qName(name), "", value);
-    }
-
-    private void addAttribute(String uri, String name, String qName, String value) {
-        if (value == null) {
-            value = "";
-        }
-        attributes.addAttribute(uri, name, qName, "", value);
+        //attributes.addAttribute("", name, qName(name), "", value);
+        attributes.addAttribute("", name, name, "", value);
     }
 
     private String qName(String elementName) {

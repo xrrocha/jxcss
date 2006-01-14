@@ -1,7 +1,8 @@
 - Complete DTD's
+- Extends the CSS-generating stylesheet
+- Implement the CSS-generating serializer
 - Add a @name attribute to [compact-]css-stylesheet
 - Improve on CSSException stack trace and message
-- Write a CSS-generating stylesheet
 - Fix Flute's getFunctionName() problem: returns parent property's name
 - Develop a Cocoon CSS Generator
 - Develop a web-based CSS editor (on top of a JSP webapp)
