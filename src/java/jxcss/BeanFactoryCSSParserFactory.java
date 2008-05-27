@@ -3,8 +3,6 @@ package jxcss;
 import org.springframework.beans.factory.BeanFactory;
 import org.springframework.beans.factory.BeanFactoryAware;
 import org.springframework.beans.factory.NoSuchBeanDefinitionException;
-import org.springframework.beans.factory.xml.XmlBeanFactory;
-import org.springframework.core.io.ClassPathResource;
 import org.w3c.css.sac.Parser;
 
 public class BeanFactoryCSSParserFactory extends AbstractCSSParserFactory implements BeanFactoryAware {

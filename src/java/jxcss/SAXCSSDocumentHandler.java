@@ -717,10 +717,15 @@ public class SAXCSSDocumentHandler implements DocumentHandler {
                 case LexicalUnit.SAC_KILOHERTZ:
                     addAttribute(TYPE, "float");
                     addAttribute(UNIT, lexicalUnit.getDimensionUnitText());
-                    // TODO: Supress trailing zeroes in float value
-                    textElement(VALUE, Float.toString(lexicalUnit.getFloatValue()));
+                    // Supress trailing zeroes in float value
+                    String floatValue = Float.toString(lexicalUnit.getFloatValue());
+                    floatValue = floatValue.replaceFirst("0+$", "");
+                    textElement(VALUE, floatValue);
                     break;
                 case LexicalUnit.SAC_URI:
+                    addAttribute(TYPE, "uri");
+                    textElement(VALUE, lexicalUnit.getStringValue());
+                    break;
                 case LexicalUnit.SAC_IDENT:
                 case LexicalUnit.SAC_STRING_VALUE:
                 case LexicalUnit.SAC_UNICODERANGE:
