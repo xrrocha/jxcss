@@ -553,7 +553,7 @@ public class SAXCSSDocumentHandler implements DocumentHandler {
         selector(siblingSelector.getSelector());
         endElement(SELECTOR);
         startElement(SIBLING_SELECTOR);
-        selector(siblingSelector.getSelector());
+        selector(siblingSelector.getSiblingSelector());
         endElement(SIBLING_SELECTOR);
         endElement(DIRECT_ADJACENT_SELECTOR);
     }
