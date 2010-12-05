@@ -1,9 +1,12 @@
+to-do:
+- Add ability to suppress startDocument/endDocument SAX events
+- Extend the CSS-generating stylesheet
+- Write a CSS-generating serializer
+- Develop web-based CSS editor
 - Complete DTD's
-- Extends the CSS-generating stylesheet
-- Implement the CSS-generating serializer
 - Add a @name attribute to [compact-]css-stylesheet
-- Improve on CSSException stack trace and message
-- Fix Flute's getFunctionName() problem: returns parent property's name
-- Develop a Cocoon CSS Generator
-- Develop a web-based CSS editor (on top of a JSP webapp)
+- Develop Cocoon CSS Generator
 
+fixme:
+- SteadyState CSS2 yields no output
+- Flute's getFunctionName() returns parent property's name

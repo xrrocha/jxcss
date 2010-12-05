@@ -1,0 +1,207 @@
+<html>
+    <head>
+        <title>JXCSS: A SAX Adapter for SAX CSS2 Parser</title>
+        <link rel="stylesheet" href="org.plenix.jxcss.css" type="text/css" />
+    </head>
+    <body>
+        <h1 class="topTitle">
+            JXCSS: A SAX Adapter for SAX CSS2 Parser
+        </h1>
+        
+        <h2 class="sectionTitle">Introduction</h2>
+        <p>
+            JXCSS is a SAX-generating CSS2 parser adapter written in Java.
+            JXCSS can be used to easily instrument or refactor existing CSS stylesheets
+            as well as to dynamically generate new ones.
+        </p>
+        
+        <p>
+            JXCSS is published under the
+            <a href="http://www.apache.org/licenses/LICENSE-2.0">Apache License 2.0</a>
+        </p>
+
+        <p>
+            JXCSS can be fed from any
+            <a href="http://www.w3.org/Style/CSS/SAC/">SAC</a>-compliant CSS2 parser.
+            As the parser processes  a stylesheet, JXCSS produces a stream of
+            SAX events that model the stylesheet' deep structure.
+            JXCSS can be connected to any SAX content handler, such as an
+            <a href="http://www.w3.org/TR/xslt">XSLT</a> or
+            <a href="http://stx.sourceforge.net/">STX</a>
+            transformation.
+        </p>
+
+        <p>
+            The generated XML conforms with JXCSS's own DTD (XCSS), which models
+            stylesheets in accordance to the W3C Level-2 DOM. An alternative, compact
+            syntax is also available.
+        </p>
+
+        <p>
+            JXCSS has been tested with the
+            <a href="http://xml.apache.org/batik/">Batik 1.6</a>
+            <a href="http://cssparser.sourceforge.net/">Steady State 0.9.4</a>,
+            <a href="http://www.w3.org/Style/CSS/SAC/">Flute 1.3</a> and
+            SAC CSS2 parsers.
+        </p>
+
+        <br/>
+        <h2 class="sectionTitle">Quick Guide</h2>
+        <p>
+            The command-line incantation is:
+        </p>
+        <pre class="code">
+            java  org.plenix.jxcss.Main  [-c]  [-p batik|steadyState|flute]  [- | &lt;inputURL&gt;]  [- | &lt;outputFile&gt;]
+        </pre>
+        <p>
+            where:
+        </p>
+        <ul>
+            <li>
+                The optional <code>-c</code> option instructs JXCSS to produce output in the
+                <i>compact</i> syntax. The compact syntax exposes a less verbose
+                (albeit less concise) structure of the stylesheet.
+            </li>
+            <li>
+                The optional <code>-p</code> option specifies what SAC parser to use.
+                Recognized values are:
+                <ul>
+                    <li>
+                        <code>batik</code>: Use the Apache Batik parser. This is the
+                        current default.
+                    </li>
+                    <li>
+                        <code>steadyState</code>: Use the Steady State CSS parser.
+                    </li>
+                    <li>
+                        <code>flute</code>: Use the W3C Flute parser.
+                    </li>
+                </ul>
+            </li>
+            <li>
+                The optional first argument names the input stylesheet URL. This can be:
+                <ul>
+                    <li>
+                        A fully qualified URL such as
+                        <code>http://localhost:8080/css/default.css</code> or
+                        <code>file:///var/www/htdocs/css/default.css</code>.
+                    </li>
+                    <li>
+                        Un unqualified URL such as
+                        <code>default.css</code> or
+                        <code>c:\docs\default.css</code>.
+                        Unqualified URL's are interpreted as local file names.
+                    </li>
+                    <li>
+                        A dash (<code>-</code>) which stands for the operating system
+                        standard input.
+                    </li>
+                </ul>
+                When omitted, the first argument defaults to the operating system's
+                standard input.
+            </li>
+            <li>
+                The optional second argument names a local file where the output XML is
+                to be stored. If omitted or specified as a dash (<code>-</code>),
+                output is sent to the operating system's standard output.
+            </li>
+        </ul>
+        
+        <p>
+            To use programmatically:
+        </p>
+        <pre class="code">
+            org.plenix.jxcss.CSSParserFactory parserFactory;
+            org.xml.sax.ContentHandler contentHandler;
+            . . .
+            // Initialize the parser factory and the content handler
+            . . .
+            org.w3c.css.sac.Parser parser = parserFactory.newParser();
+            org.plenix.jxcss.SAXCSSDocumentHandler documentHandler =
+                new org.plenix.jxcss.SAXCSSDocumentHandler(contentHandler);
+            parser.setDocumentHandler(documentHandler);
+            parser.parseStyleSheet(new InputSource("stylesheet.css"));
+        </pre>
+        <p>
+            See the <a href="javadoc/index.html" target="_new">javadocs</a> for details.
+        </p>
+        
+        <p>
+            The following libraries must be in the class path:
+        </p>
+        <ul>
+            <li>
+                <code>org.plenix.jxcss.jar</code>
+            </li>
+            <li>
+                <code>sac.jar</code>
+            </li>
+            <li>
+                A SAC CSS2 parser:
+                <ul>
+                    <li>
+                        Batik:
+                        <code>batik-css.jar</code> and
+                        <code>batik-util.jar</code>
+                    </li>
+                    <li>
+                        Steady State:
+                        <code>ss_css2.jar</code>
+                    </li>
+                    <li>
+                        Flute:
+                        <code>flute.jar</code>
+                    </li>
+                </ul>
+            </li>
+            <li>
+            	Spring-related libraries:
+            	<ul>
+            		<li><code>spring-core.jar</code></li>
+            		<li><code>spring-beans.jar</code></li>
+            		<li><code>commons-logging.jar</code></li>
+            		<li><code>log4j.jar</code></li>
+            	</ul>
+            </li>
+        </ul>
+
+        <br/>
+        <h2 class="sectionTitle">Status</h2>
+        <p>
+            JXCSS is a young project, so some functionality is either incomplete or missing.
+            For the common application, though, it works acceptably well: most CSS stylesheets
+            will generate correct, complete XML output.
+        </p>
+        <p>
+            Work is required in the following areas:
+        </p>
+        <ul>
+            <li>
+                <i>Stylesheets</i>. Stylesheets need to be written to generate and pretty-print
+                CSS source code.
+            </li>
+            <li>
+                <i>Parser compatibility</i>: Currently, only the Batik and Steady State parsers
+                   work out of the box. Problems with function names need to be fixed for the
+                   Flute parser.
+            </li>
+            <li>
+                <i>Error reporting</i>: Better exception handling and reporting is needed.
+            </li>
+            <li>
+                <i>To Do</i>: Add logging, tests, javadoc, complete DTD's...
+            </li>
+            <li>
+            	<i>Longer term plans:</i>
+            	<ul>
+            		<li>
+            			Develop a <a href="http://cocoon.apache.org">Cocoon</a> CSS Generator.
+            		</li>
+            		<li>
+            			Build a web-based CSS editor on top of a JSP application.
+            		</li>
+            	</ul>
+            </li>
+        </ul>
+    </body>
+</html>

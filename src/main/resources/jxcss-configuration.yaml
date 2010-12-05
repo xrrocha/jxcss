@@ -1,0 +1,6 @@
+--- !!org.plenix.jxcss.DefaultCSSParserFactory
+preferredParserName: batik
+parserClasses:
+    batik: org.apache.batik.css.parser.Parser
+    steadyState: com.steadystate.css.parser.SACParserCSS2
+    flute: org.w3c.flute.parser.Parser
