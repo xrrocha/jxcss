@@ -1,7 +1,7 @@
 <html>
     <head>
         <title>JXCSS: A SAX Adapter for SAX CSS2 Parser</title>
-        <link rel="stylesheet" href="org.plenix.jxcss.css" type="text/css" />
+        <link rel="stylesheet" href="css/jxcss.css" type="text/css" />
     </head>
     <body>
         <h1 class="topTitle">
@@ -24,7 +24,7 @@
             JXCSS can be fed from any
             <a href="http://www.w3.org/Style/CSS/SAC/">SAC</a>-compliant CSS2 parser.
             As the parser processes  a stylesheet, JXCSS produces a stream of
-            SAX events that model the stylesheet' deep structure.
+            SAX events that model the stylesheet's deep structure.
             JXCSS can be connected to any SAX content handler, such as an
             <a href="http://www.w3.org/TR/xslt">XSLT</a> or
             <a href="http://stx.sourceforge.net/">STX</a>
@@ -38,14 +38,14 @@
         </p>
 
         <p>
-            JXCSS has been tested with the
-            <a href="http://xml.apache.org/batik/">Batik 1.6</a>
-            <a href="http://cssparser.sourceforge.net/">Steady State 0.9.4</a>,
-            <a href="http://www.w3.org/Style/CSS/SAC/">Flute 1.3</a> and
-            SAC CSS2 parsers.
+            JXCSS supports the following SAC CSS2 parsers:
         </p>
+        <ul>
+            <li><a href="http://xml.apache.org/batik/">Batik ${batik-css.version}</a></li>
+            <li><a href="http://cssparser.sourceforge.net/">Steady State ${cssparser.version}</a></li>
+            <li><a href="http://www.w3.org/Style/CSS/SAC/">Flute ${flute.version}</a></li>
+        </ul>
 
-        <br/>
         <h2 class="sectionTitle">Quick Guide</h2>
         <p>
             The command-line incantation is:
@@ -67,14 +67,14 @@
                 Recognized values are:
                 <ul>
                     <li>
-                        <code>batik</code>: Use the Apache Batik parser. This is the
-                        current default.
-                    </li>
-                    <li>
-                        <code>steadyState</code>: Use the Steady State CSS parser.
+                        <code>batik</code>: Use the Apache Batik parser.
+                        This is the default.
                     </li>
                     <li>
                         <code>flute</code>: Use the W3C Flute parser.
+                    </li>
+                    <li>
+                        <code>steadyState</code>: Use the Steady State CSS parser.
                     </li>
                 </ul>
             </li>
@@ -123,85 +123,7 @@
             parser.parseStyleSheet(new InputSource("stylesheet.css"));
         </pre>
         <p>
-            See the <a href="javadoc/index.html" target="_new">javadocs</a> for details.
+            See the <a href="api/index.html" target="_new">javadocs</a> for details.
         </p>
-        
-        <p>
-            The following libraries must be in the class path:
-        </p>
-        <ul>
-            <li>
-                <code>org.plenix.jxcss.jar</code>
-            </li>
-            <li>
-                <code>sac.jar</code>
-            </li>
-            <li>
-                A SAC CSS2 parser:
-                <ul>
-                    <li>
-                        Batik:
-                        <code>batik-css.jar</code> and
-                        <code>batik-util.jar</code>
-                    </li>
-                    <li>
-                        Steady State:
-                        <code>ss_css2.jar</code>
-                    </li>
-                    <li>
-                        Flute:
-                        <code>flute.jar</code>
-                    </li>
-                </ul>
-            </li>
-            <li>
-            	Spring-related libraries:
-            	<ul>
-            		<li><code>spring-core.jar</code></li>
-            		<li><code>spring-beans.jar</code></li>
-            		<li><code>commons-logging.jar</code></li>
-            		<li><code>log4j.jar</code></li>
-            	</ul>
-            </li>
-        </ul>
-
-        <br/>
-        <h2 class="sectionTitle">Status</h2>
-        <p>
-            JXCSS is a young project, so some functionality is either incomplete or missing.
-            For the common application, though, it works acceptably well: most CSS stylesheets
-            will generate correct, complete XML output.
-        </p>
-        <p>
-            Work is required in the following areas:
-        </p>
-        <ul>
-            <li>
-                <i>Stylesheets</i>. Stylesheets need to be written to generate and pretty-print
-                CSS source code.
-            </li>
-            <li>
-                <i>Parser compatibility</i>: Currently, only the Batik and Steady State parsers
-                   work out of the box. Problems with function names need to be fixed for the
-                   Flute parser.
-            </li>
-            <li>
-                <i>Error reporting</i>: Better exception handling and reporting is needed.
-            </li>
-            <li>
-                <i>To Do</i>: Add logging, tests, javadoc, complete DTD's...
-            </li>
-            <li>
-            	<i>Longer term plans:</i>
-            	<ul>
-            		<li>
-            			Develop a <a href="http://cocoon.apache.org">Cocoon</a> CSS Generator.
-            		</li>
-            		<li>
-            			Build a web-based CSS editor on top of a JSP application.
-            		</li>
-            	</ul>
-            </li>
-        </ul>
     </body>
 </html>

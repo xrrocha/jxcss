@@ -4,7 +4,7 @@ import org.testng.annotations.Test;
 
 public class RunMain {
     @Test
-    public void runMan() {
-        Main.main("-c", "-p", "batik", "src/site/jxcss.css", "target/jxcss.xml");
+    public void runMain() {
+        Main.main("-c", "-p", "batik", "src/main/docs/css/jxcss.css", "target/jxcss.xml");
     }
 }

@@ -20,32 +20,22 @@
 		<dependency>
 			<groupId>org.w3c.css</groupId>
 			<artifactId>sac</artifactId>
-			<version>1.3</version>
+			<version>${sac.version}</version>
 		</dependency>
 		<dependency>
 			<groupId>batik</groupId>
 			<artifactId>batik-css</artifactId>
-			<version>1.6-1</version>
+			<version>${batik-css.version}</version>
 		</dependency>
 		<dependency>
 			<groupId>net.sourceforge.cssparser</groupId>
 			<artifactId>cssparser</artifactId>
-			<version>0.9.5</version>
+			<version>${cssparser.version}</version>
 		</dependency>
 		<dependency>
 			<groupId>org.milyn</groupId>
 			<artifactId>flute</artifactId>
-			<version>1.3</version>
-		</dependency>
-		<dependency>
-			<groupId>org.springframework</groupId>
-			<artifactId>spring-core</artifactId>
-			<version>2.5.6</version>
-		</dependency>
-		<dependency>
-			<groupId>org.springframework</groupId>
-			<artifactId>spring-beans</artifactId>
-			<version>2.5.6</version>
+			<version>${flute.version}</version>
 		</dependency>
 		<dependency>
 			<groupId>org.yaml</groupId>
@@ -86,11 +76,6 @@
 			<version>${hamcrest-all.version}</version>
 			<scope>test</scope>
 		</dependency>
-		<dependency>
-			<groupId>commons-io</groupId>
-			<artifactId>commons-io</artifactId>
-			<version>${commons-io.version}</version>
-		</dependency>
 	</dependencies>
 
 	<build>
@@ -107,6 +92,7 @@
 			</testResource>
 		</testResources>
 		<plugins>
+			<!-- Java Compiler -->
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
 				<artifactId>maven-compiler-plugin</artifactId>
@@ -117,36 +103,151 @@
 					<target>${maven-compiler-plugin.target}</target>
 				</configuration>
 			</plugin>
+			<!-- Executable jar -->
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
-				<artifactId>maven-source-plugin</artifactId>
+				<artifactId>maven-jar-plugin</artifactId>
+				<version>${maven-jar-plugin.version}</version>
+				<configuration>
+					<archive>
+						<manifest>
+							<mainClass>${mainClass}</mainClass>
+							<addClasspath>true</addClasspath>
+						</manifest>
+					</archive>
+					<outputDirectory>${release.lib.directory}</outputDirectory>
+				</configuration>
+			</plugin>
+			<!-- Source jars -->
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-source-plugin</artifactId>
+                <version>${maven-source-plugin.version}</version>
+                <executions>
+                    <execution>
+                        <id>attach-sources</id>
+                        <goals>
+                            <goal>jar</goal>
+                        </goals>
+                    </execution>
+                    <execution>
+                        <id>attach-javadocs</id>
+                        <goals>
+                            <goal>jar</goal>
+                        </goals>
+                    </execution>
+                </executions>
+            </plugin>
+			<!--Javadocs for distribution -->
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-javadoc-plugin</artifactId>
+				<version>${maven-javadoc-plugin.version}</version>
+				<configuration>
+					<destDir>api</destDir>
+					<reportOutputDirectory>${release.docs.directory}</reportOutputDirectory>
+				</configuration>
+			</plugin>
+			<!-- Files and directories for distribution -->
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-resources-plugin</artifactId>
+				<version>${maven-resources-plugin.version}</version>
 				<executions>
 					<execution>
-						<id>attach-sources</id>
+						<id>copy-files</id>
+						<phase>package</phase>
 						<goals>
-							<goal>jar</goal>
+							<goal>copy-resources</goal>
 						</goals>
+						<configuration>
+							<outputDirectory>${release.directory}</outputDirectory>
+							<nonFilteredFileExtensions>
+								<nonFilteredFileExtension>png</nonFilteredFileExtension>
+                                <nonFilteredFileExtension>gif</nonFilteredFileExtension>
+                                <nonFilteredFileExtension>jpg</nonFilteredFileExtension>
+                                <nonFilteredFileExtension>jpeg</nonFilteredFileExtension>
+							</nonFilteredFileExtensions>
+							<resources>
+								<resource>
+									<directory>${basedir}</directory>
+									<includes>
+										<include>README*</include>
+										<include>LICENSE*</include>
+										<include>*.dtd`</include>
+									</includes>
+								</resource>
+								<resource>
+									<directory>${basedir}/src/main</directory>
+                                    <filtering>true</filtering>
+									<includes>
+										<include>*.sh</include>
+									</includes>
+								</resource>
+							</resources>
+						</configuration>
+					</execution>
+					<execution>
+						<id>copy-docs</id>
+						<phase>package</phase>
+						<goals>
+							<goal>copy-resources</goal>
+						</goals>
+						<configuration>
+							<outputDirectory>${release.docs.directory}</outputDirectory>
+							<resources>
+								<resource>
+									<directory>src/main/docs</directory>
+									<filtering>true</filtering>
+								</resource>
+							</resources>
+						</configuration>
 					</execution>
 				</executions>
 			</plugin>
+			<!-- Dependencies for distribution -->
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
-				<artifactId>maven-source-plugin</artifactId>
-				<version>${maven-source-plugin.version}</version>
+				<artifactId>maven-dependency-plugin</artifactId>
+				<version>${maven-dependency-plugin.version}</version>
 				<executions>
 					<execution>
-						<id>attach-javadocs</id>
+						<id>copy-dependencies</id>
+						<phase>package</phase>
 						<goals>
-							<goal>jar</goal>
+							<goal>copy-dependencies</goal>
 						</goals>
+						<configuration>
+							<outputDirectory>${release.lib.directory}</outputDirectory>
+							<overWriteReleases>false</overWriteReleases>
+							<overWriteSnapshots>false</overWriteSnapshots>
+							<overWriteIfNewer>true</overWriteIfNewer>
+							<excludeArtifactIds>aopalliance,bsh,guice,hamcrest-all,jcommander,junit,mockito-core,objenesis,testng</excludeArtifactIds>
+						</configuration>
 					</execution>
 				</executions>
 			</plugin>
+			<!-- Release assembly -->
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-assembly-plugin</artifactId>
+				<version>${maven-assembly-plugin.version}</version>
+				<configuration>
+					<outputDirectory>${project.build.directory}</outputDirectory>
+					<descriptors>
+						<descriptor>src/main/release.xml</descriptor>
+					</descriptors>
+				</configuration>
+			</plugin>
+			<!-- Testing -->
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
 				<artifactId>maven-surefire-plugin</artifactId>
 				<version>${maven-surefire-plugin.version}</version>
 				<configuration>
+					<suiteXmlFiles>
+						<suiteXmlFile>${basedir}/src/test/testng.xml</suiteXmlFile>
+					</suiteXmlFiles>
 					<reportsDirectory>${basedir}/target/surefire-reports</reportsDirectory>
 				</configuration>
 			</plugin>
@@ -156,16 +257,33 @@
 	<properties>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 
+		<mainClass>org.plenix.jxcss.Main</mainClass>
+		<sources.directory>${project.build.directory}/sources</sources.directory>
+		<release.directory>${project.build.directory}/release</release.directory>
+		<release.docs.directory>${release.directory}/docs</release.docs.directory>
+		<release.lib.directory>${release.directory}/lib</release.lib.directory>
+		<release.src.directory>${release.directory}/src</release.src.directory>
+
+		<batik-css.version>1.6-1</batik-css.version>
+		<cssparser.version>0.9.5</cssparser.version>
+		<flute.version>1.3</flute.version>
 		<hamcrest-all.version>1.1</hamcrest-all.version>
 		<commons-io.version>2.0</commons-io.version>
-		<maven-source-plugin.version>2.1.2</maven-source-plugin.version>
-		<maven-surefire-plugin.version>2.6</maven-surefire-plugin.version>
 		<mockito.version>1.8.5</mockito.version>
 		<slf4j.version>1.6.1</slf4j.version>
 		<testng.version>5.13.1</testng.version>
 		<snakeyaml.version>1.7</snakeyaml.version>
+		<maven-assembly-plugin.version>2.2</maven-assembly-plugin.version>
 		<maven-compiler-plugin.version>2.3.2</maven-compiler-plugin.version>
 		<maven-compiler-plugin.source>1.6</maven-compiler-plugin.source>
 		<maven-compiler-plugin.target>1.6</maven-compiler-plugin.target>
+		<maven-dependency-plugin.version>2.1</maven-dependency-plugin.version>
+		<maven-javadoc-plugin.version>2.7</maven-javadoc-plugin.version>
+		<maven-jar-plugin.version>2.3.1</maven-jar-plugin.version>
+		<maven-resources-plugin.version>2.4.3</maven-resources-plugin.version>
+		<maven-site-plugin.version>2.2</maven-site-plugin.version>
+		<maven-source-plugin.version>2.1.2</maven-source-plugin.version>
+		<maven-surefire-plugin.version>2.6</maven-surefire-plugin.version>
+		<sac.version>1.3</sac.version>
 	</properties>
 </project>

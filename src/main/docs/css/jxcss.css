@@ -6,12 +6,12 @@ body {
 }
 
 p {
-    text-align: justify;
+    text-align: left;
 }
 
 .error {
 	color:red;
-    text-align: justify;
+    text-align: left;
 }
     
 h1.topTitle {
@@ -45,13 +45,13 @@ p.todo {
 
 pre.code {
     color: navy;
-    font-size: 10pt;
+    font-size: 14pt;
     font-family: Terminal;
 }
 
 blockquote {
     font-style: italic;
-    text-align: justify;
+    text-align: left;
 }
 
 .centered {
@@ -79,12 +79,12 @@ ul.menu {
 
 li.menuItem {
 	color: navy;
-	text-align: justify;
+	text-align: left;
 	margin-bottom: 4px;
 	list-style: square url(img/menu-bullet.png) outside;
 }
 
 li {
-	text-align: justify;
+	text-align: left;
 	margin-bottom: 6px;
 }

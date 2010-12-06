@@ -1,0 +1,16 @@
+<!DOCTYPE suite SYSTEM "http://testng.org/testng-1.0.dtd" >
+
+<suite name="jxcss">
+    <test name="jxcss" preserve-order="true">
+        <!--
+        <groups>
+            <run>
+                <exclude name="brokenTests"/>
+            </run>
+        </groups>
+        -->
+        <packages>
+            <package name="org.plenix.jxcss"/>
+        </packages>
+    </test>
+</suite>
